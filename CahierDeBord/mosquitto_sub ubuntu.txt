@@ -1,0 +1,1 @@
+mosquitto_sub -h eu1.cloud.thethings.network -t "v3/mat-eolien-application@ttn/devices/device-projet-mateolien/+" -u "mat-eolien-application@ttn" -P "NNSXS.77WKJ5VUQOGAKSXM2PDTCCJ4ZGKJA572PIK5YWY.YFEWZOIQDZSSB75MW5Y4YVZ3PR6XAUKTPTJCB32TSLASM2AJK43A"

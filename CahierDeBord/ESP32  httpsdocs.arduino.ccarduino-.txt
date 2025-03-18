@@ -1,0 +1,64 @@
+Documentations :
+
+ESP32 : https://docs.arduino.cc/arduino-cloud/guides/esp32/
+LauraWAN : https://docs.arduino.cc/learn/communication/lorawan-101/
+Gateway gateway tbmh100 : https://pixel-networks.com/shop/mini-hub-tbmh100-366#attr=297
+capteur girouette et direction de vent : https://www.youtube.com/watch?v=yW5y2P8zP1k
+carte SD : https://passionelectronique.fr/carte-sd-arduino/
+
+
+convertion arduino en format .CSV pour l'enregistrer sur la carte sd
+
+
+
+
+A quelle problématique répond votre projet ?
+
+Evaluer le potentiel de potentiel de production afin de déterminer s’il est
+rentable d’investir dans l’exploitation du 
+gisement en développant et déployant les systèmes informatique et réseaux pour la gestion d'un mât de prospection éolien
+
+
+Dans le MQTT :
+Installer le Mosquitto qui est un brocker MQTT qui va gérer les topics pour notre cas les mesures : vitesse de vent et direction de vent 
+et un agent Node-red pour collecter/transmettre les données
+
+
+
+Oui, avec votre ESP32 Wi-Fi, vous pouvez envoyer des données à votre passerelle TBMH-100, qui à son tour les transmettra à The Things Stack. Voici comment cela peut se dérouler dans le contexte de votre configuration :
+
+Schéma de communication :
+ESP32 avec Wi-Fi :
+
+L'ESP32 est votre dispositif IoT qui capte des données (par exemple, des données de capteurs) et les envoie via une connexion Wi-Fi.
+L'ESP32 peut envoyer ces données en utilisant le protocole MQTT ou HTTP, selon ce que votre passerelle TBMH-100 attend.
+Passerelle TBMH-100 :
+
+La passerelle TBMH-100 est configurée pour recevoir les données de votre ESP32. Elle peut être connectée à Internet via Wi-Fi et agir comme un broker MQTT ou comme un pont (bridge) qui transmet les données de l'ESP32 à The Things Stack.
+La passerelle pourrait réceptionner les messages MQTT ou requêtes HTTP venant de votre ESP32, puis les transmettre à The Things Stack via MQTT ou l'API HTTP.
+The Things Stack :
+
+The Things Stack est une plateforme qui permet de gérer les réseaux LoRaWAN (ou tout autre type de protocole IoT). Dans votre cas, The Things Stack reçoit les messages transmis par la passerelle TBMH-100, qui peut ensuite analyser ces données et gérer le cycle de vie des dispositifs IoT (comme la gestion des capteurs, les alertes, et l'intégration avec d'autres systèmes).
+Scénario possible :
+L'ESP32 capte des données via des capteurs.
+L'ESP32 envoie ces données via Wi-Fi à la passerelle TBMH-100 en utilisant MQTT ou HTTP.
+La passerelle TBMH-100 reçoit ces données, et si elle est configurée avec un broker MQTT, elle transmet ces données à The Things Stack en publiant sur un topic MQTT auquel The Things Stack est abonné. Sinon, elle pourrait utiliser une API HTTP pour envoyer les données directement à The Things Stack.
+The Things Stack reçoit et traite les données. En fonction de la configuration, il peut stocker ces informations, les utiliser pour des actions (comme l'analyse en temps réel), ou activer des alertes.
+Points à vérifier :
+Configuration MQTT : Assurez-vous que la passerelle TBMH-100 et The Things Stack sont correctement configurées pour recevoir et transmettre des messages via MQTT.
+
+Protocole de communication de l'ESP32 : Vérifiez que l'ESP32 est configuré pour envoyer des messages en MQTT ou HTTP dans un format compatible avec la passerelle TBMH-100 et The Things Stack.
+
+Sécurité et authentification : Vérifiez que des mécanismes d'authentification et de sécurité sont en place pour sécuriser la transmission des données (par exemple, en utilisant des clés API ou TLS/SSL pour MQTT).
+
+Exemple avec MQTT :
+Si vous utilisez MQTT, voici une configuration typique :
+
+L'ESP32 publie des messages sur un topic MQTT (par exemple, esp32/sensors) vers le broker Mosquitto ou directement vers la passerelle TBMH-100 si elle fonctionne comme un broker MQTT.
+
+La passerelle TBMH-100 est configurée pour s'abonner à ce topic ou recevoir ces messages, puis les transmettre à The Things Stack sur un autre topic MQTT.
+
+The Things Stack reçoit les messages MQTT via le broker et les traite.
+
+En résumé :
+Avec votre ESP32, vous pouvez envoyer des données directement à la passerelle TBMH-100 en utilisant Wi-Fi. Cette passerelle peut ensuite agir comme un intermédiaire pour transmettre les données à The Things Stack via MQTT ou HTTP. Cela permet une communication fluide entre vos dispositifs IoT et la plateforme de gestion de votre réseau IoT.
